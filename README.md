@@ -17,5 +17,5 @@ It is aimed to apply, practice in order to better understand Angular Forms.
 
 ## Final look
 
-<img valign="bottom" src="img/final_look.png">
+<img valign="bottom" src="./src/assets/img/final_look.png">
 
