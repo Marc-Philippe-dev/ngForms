@@ -8,69 +8,61 @@
 				<div class="col-md-6 mb-3">
 					<label>Nom</label>
 					<input type="text" class="form-control" placeholder="Nom" formControlName="lastName"
-						[ngClass]="{'is-invalid': registerForm.get('lastName')?.touched  &&   registerForm.get('lastName')?.invalid}">
+						[ngClass]="{'is-invalid': formErrors['lastName'] }">
 
-					<div class="invalid-feedback">
-						<span *ngIf="registerForm.get('lastName')?.errors?.['required']">Entrer votre nom</span>
-						<span *ngIf="registerForm.get('lastName')?.errors?.['minlength']">Minimum 4 caractères
-							requis</span>
-					</div>
+					<span class="invalid-feedback">
+						{{formErrors['lastName']}}
+					</span>
 				</div>
 
 				<div class="col-md-6 mb-3">
 					<label>Prenom</label>
 					<input type="text" class="form-control" placeholder="Prenom" formControlName="firstName"
-						[ngClass]="{'is-invalid': registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid}">
+						[ngClass]="{'is-invalid': formErrors['firstName'] }">
 
-					<div class="invalid-feedback">
-						<span *ngIf="registerForm.get('firstName')?.errors?.['required']">Entrer votre prénom</span>
-						<span *ngIf="registerForm.get('firstName')?.errors?.['maxlength']">Maximum 20 caractères
-							requis</span>
-					</div>
+					<span class="invalid-feedback">
+						{{formErrors['firstName']}}
+					</span>
 				</div>
 			</div>
 			<div class="row" formGroupName="emailGroup">
 				<div class="col-md-6 mb-3">
 					<label>E-Mail</label>
 					<input type="email" class="form-control" placeholder="E-Mail" formControlName="email"
-						[ngClass]="{'is-invalid': registerForm.get('emailGroup')?.errors || (registerForm.get('emailGroup.email')?.touched && registerForm.get('emailGroup.email')?.invalid)}">
-
-					<div class="invalid-feedback">
-						<span *ngIf=" registerForm.get('emailGroup.email')?.errors?.['required']">Entrer votre email</span>
-						<span *ngIf="registerForm.get('emailGroup.email')?.errors?.['email']">Email invalide</span>
-					</div>
+						[ngClass]="{'is-invalid': formErrors['email']}">
+					<span class="invalid-feedback">
+						{{ formErrors['email'] }}
+					</span>
+				 
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="confirmEmailId">Confirmer le mail</label>
-					<input type="email" id="confirEmailId" class="form-control"
-					placeholder="Confirmer l'email"
-					formControlName="confirmEmail"
-					[ngClass]="{'is-invalid': registerForm.get('emailGroup')?.errors || ((
-						registerForm.get('emailGroup.confirmEmail')?.touched || registerForm.get('emailGroup.confirmEmail')?.dirty) &&  
-						registerForm.get('emailGroup.confirmEmail')?.invalid)}"
+					<input type="email" id="confirEmailId" class="form-control" placeholder="Confirmer l'email"
+						formControlName="confirmEmail"
+						[ngClass]="{'is-invalid': formErrors['confirmEmail'] || registerForm.get('emailGroup')?.errors?.['match']  }"	
+						>
+
+					<span class="invalid-feedback">
+						{{formErrors['confirmEmail']}}
+					</span>
+					<span 
+					class="invalid-feedback"
+					*ngIf=" registerForm.get('emailGroup.confirmEmail')?.valid && registerForm.get('emailGroup')?.errors?.['match']"
 					>
-					<div class="invalid-feedback">
-						<span *ngIf="registerForm.get('emailGroup.confirmEmail')?.errors?.['required']">Merci de confirmer votre email</span>
-						<span *ngIf="registerForm.get('emailGroup.confirmEmail')?.touched  && registerForm.get('emailGroup.confirmEmail')?.errors?.['email']">Merci de rentrer un email valide</span>
-						<span *ngIf=" registerForm.get('emailGroup.confirmEmail')?.valid &&registerForm.get('emailGroup')?.errors?.['match']">L'email ne correspond pas</span>
-					</div>
+					L'email ne correspond pas.
+					</span >
+					 
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-md-6 mb-3">
 					<label for="phoneId">Telephone</label>
-					<input type="tel" class="form-control" 
-					formControlName="phone"
-					placeholder="Numero de tel"
-					[ngClass]="{'is-invalid': registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid }"
-					>
-					<div class="invalid-feedback">
-						<span *ngIf="registerForm.get('phone')?.errors?.['required'] "
-						>
-							Veuillez rentrer votre numero de telephone.
-						</span>
-					</div>
+					<input type="tel" class="form-control" formControlName="phone" placeholder="Numero de tel"
+						[ngClass]="{'is-invalid': formErrors['phone'] }">
+					<span class="invalid-feedback">
+						{{ formErrors['phone'] }}
+					</span>
 				</div>
 
 				<div class="col-md-6 mb-3">
@@ -78,21 +70,15 @@
 					<div class="col-md-8 mb-3">
 						<div class="form-check form-check-inline">
 							<label class="form-check-label">
-								<input type="radio" 
-								class="form-check-input"
-								value="email"
-								formControlName="notification"
-								>
+								<input type="radio" class="form-check-input" value="email"
+									formControlName="notification">
 								E-mail
 							</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<label class="form-check-label">
-								<input type="radio" 
-								class="form-check-input"
-								value="text"
-								formControlName="notification"
-								>
+								<input type="radio" class="form-check-input" value="text"
+									formControlName="notification">
 								Tel
 							</label>
 						</div>
@@ -104,13 +90,10 @@
 				<div class="col-md-6">
 					<label for="ratingId">Note</label>
 					<input type="number" id="ratingId" class="form-control" formControlName="rating"
-					[ngClass]="{'is-invalid' :( registerForm.get('rating')?.touched || registerForm.get('rating')?.dirty ) && registerForm.get('rating')?.invalid}"
-				>
-				<div class="invalid-feedback">
-					<span *ngIf="registerForm.get('rating')?.errors?.['rangeError']">
-						Veuillez noter nos services sur une echelle de 1 à 5.
+						[ngClass]="{'is-invalid' : formErrors['rating'] }">
+					<span class="invalid-feedback">
+						{{formErrors['rating']}}
 					</span>
-				</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-check mt-4">
@@ -122,43 +105,88 @@
 				</div>
 			</div>
 
-			<!-- <div *ngIf="user.sendCatalog">
-				<div class="row mb-3">
-					<div class="col-md-12">
-						<label for="">Adresse 1:</label>
-						<input type="text" class="form-control">
+			<div *ngIf="registerForm.get('sendCatalog')?.value">
+				<div formArrayName ="addresses" *ngFor="let address of addressList.controls ; let i = index">
+
+					<div [formGroupName] = "i">
+	
+						<div class="form-group row mb-2">
+							<label for="" class="col-md-2 col-form-label pt-0">
+								Type
+							</label>
+							<div class="col-md-8">
+								<div class="form-check form-check-inline">
+									<label for="" class="form-check-label">
+										<input type="radio" value="home" formControlName="addressType" class="form-check-input">
+										Domicile
+									</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<label for="" class="form-check-label">
+										<input type="radio" value="work" formControlName="addressType" class="form-check-input">
+										Lieu de travail
+									</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<label for="" class="form-check-label">
+										<input type="radio" value="other" formControlName="addressType" class="form-check-input">
+										Autre
+									</label>
+								</div>
+							</div>
+						</div>
+		
+						<div class="row mb-3">
+							<div class="col-md-12">
+								<label attr.for = "{{'street1Id' + i}}">Adresse 1:</label>
+								<input type="text" id="{{'street1Id' + i}}" formControlName="street1" class="form-control">
+							</div>
+						</div>
+		
+						<div class="row mb-3">
+							<div class="col-md-12">
+								<label attr.for = "{{'street2Id' + i}}">Adresse 2:</label>
+								<input type="text" id="{{'street2Id' + i}}" formControlName="street2" class="form-control">
+							</div>
+						</div>
+		
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label attr.for = "{{'cityId' +i}}">Ville</label>
+								<input type="text" id="{{'cityId' +i}}" formControlName="city" class="form-control">
+							</div>
+							<div class="col-md-3 mb-3">
+								<label attr.for = "{{'stateId' +i}}">Departement</label>
+								<select type="text" id="{{'stateId' +i}}" formControlName="state" class="form-control">
+									<option value="">Selectionner un departement</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<label attr.for="{{'zipId' +i}}">Code Postal</label>
+								<input type="number" id="{{'zipId' +i}}" formControlName="zip" class="form-control">
+							</div>
+						</div>
+	
 					</div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-12">
-						<label for="">Adresse 2:</label>
-						<input type="text" class="form-control">
-					</div>
+
 				</div>
 
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						<label for="">Ville</label>
-						<input type="text" class="form-control">
-					</div>
-					<div class="col-md-3 mb-3">
-						<label for="">Departement</label>
-						<select type="text" class="form-control">
-							<option value="">Selectionner un departement</option>
-							<option value="A">A</option>
-							<option value="B">B</option>
-							<option value="C">C</option>
-							<option value="D">D</option>
-						</select>
-					</div>
-					<div class="col-md-3">
-						<label for="">Code Postal</label>
-						<input type="number" class="form-control">
+				<div class="form-group row mb-2">
+					<div class="col-md-4">
+						<button class="btn btn-outline-info" type="button"
+						(click)="addAddress()"
+						>
+							Ajouter une addresse
+						</button>
 					</div>
 				</div>
 			</div>
- -->
- 			
+
+
 
 
 			<div class="text-right">
@@ -171,8 +199,3 @@
 		</form>
 	</div>
 </div>
-
-<br>
-<hr>
-<p>Values</p>
-<pre>{{registerForm.value | json}}</pre>
